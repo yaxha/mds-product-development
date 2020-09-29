@@ -1,2 +1,2 @@
 # mds-product-development
-Product Development para la maestría de Data Science
+Laboratorios y proyectos del curso de Product Development para la maestría de Data Science
