@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+    db:
+        image: mysql
+        container_name: c_mysql
+        ports:
+            - 3306:3306
+        volumes:
+            - db_data:/var/lib/mysql
+            - 'C:\Users\jose-\Documents\Galileo\4 Product development\Parciales\Primera parte\Data:/home'
+        environment:
+            - "MYSQL_ROOT_PASSWORD=root123"
+            - "MYSQL_OPT_LOCAL_INFILE=TRUE"
+        command:
+            --default-authentication-plugin=mysql_native_password
+            --secure-file-priv="/home"
+            --local-infile=1
+            --loose-local-infile=1
+            
+    rstudio:
+        image: dceoy/rstudio-server
+        container_name: c_rstudio
+        ports:
+            - 8787:8787
+        entrypoint:
+            - /usr/lib/rstudio-server/bin/rserver
+        depends_on:
+            - db
+        command:
+            --server-daemonize=0
+            --server-app-armor-enabled=0
+        environment:
+            - "ROOT=TRUE"
+            - "PASSWORD=test123"
+            - "DISABLE_AUTH=true"
+            - "ADD=shiny"   
+        volumes:
+            - 'C:\Users\jose-\Documents\Galileo\4 Product development\Parciales\Primera parte\App:/home/rstudio'
+        working_dir:
+            /home/rstudio
+volumes:
+    db_data:
